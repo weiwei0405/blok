@@ -1,151 +1,205 @@
 <template>
-	<h2>我是首页</h2>
+	<div class="from form-group">
+		<div class="form-group ">
+			<label class="col-sm-1 text-right">最小数：</label>
+			<div class="col-sm-10">
+				<input type="number" class="form-control" v-model="min" name="min" />
+			</div>
+		</div>
+		<div class=" form-group">
+			<label class="col-sm-1 text-right">最大数：</label>
+			<div class="col-sm-10">
+				<input type="number" class="form-control" v-model="max" name="max" />
+			</div>
+		</div>
+		<div class=" form-group">
+			<label class="col-sm-1 text-right">生成数：</label>
+			<div class="col-sm-10">
+				<input type="number" class="form-control" v-model="nums" name="nums" />
+			</div>
+		</div>
+		<div class="form-group">
+			<button class="col btn btn-primary" v-on:click="twonumbers()">生成两个数运算</button>
 
-	<!-- Swiper -->
-	<swiper :slides-per-view="1" :autoplay='false' :loop='true' :space-between="50" @swiper="onSwiper" @slideChange="onSlideChange"
-	 navigation :pagination="{ clickable: true }">
-		<swiper-slide><img src="../assets/banner/1.jpg">
-
-			<div class="slide-title">这是一个标题</div>
-		</swiper-slide>
-		<swiper-slide><img src="../assets/banner/2.jpg">
-			<div class="slide-title">这是一个标题2</div>
-		</swiper-slide>
-
-	</swiper>
-
-	<ul>
-		<li><a href="#">asdffasdf</a></li>
-		<li><a href="#">123123</a></li>
-		<li><a href="#">43434</a></li>
+		</div>
+		<div class="form-group">
+			<button class="col btn btn-primary" v-on:click="threenumbers()">生成三个数运算</button>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-1 text-right">字体大小:</label>
+			<div class="col-sm-10">
+				<input type="range" />
+			</div>
+		</div>
+	</div>
+	<button @click="print()">打印</button>
+	<ul class="list" ref="print" id="printTest">
+		<li v-for="(item,index) in list" :style="{fontSize:fontSize +'px',width:width+'%'}">
+			{{item.q}}
+		</li>
 	</ul>
-	<div class="count" data-num1='2000' data-num2='100'>400</div>
-	<div class="footer"></div>
+
+
 </template>
 <script>
-	import {
-		request
-	} from '../network/request.js'
-	import SwiperCore, {
-		Navigation,
-		Pagination,
-		Autoplay
-	} from 'swiper';
-	import {
-		Swiper,
-		SwiperSlide
-	} from 'swiper/vue';
-	import 'swiper/swiper-bundle.min.css';
 	import $ from 'jquery'
 	// @ is an alias to /src
-	SwiperCore.use([Navigation, Pagination, Autoplay]);
+
+	//  import importAll from '../components/until/function.js'
+	// const map = importAll(require.context('components',false,/Base[A-Z]\w+\.(vue|js)$/))
+ 
 	export default {
 		name: 'Home',
 		data() {
 			return {
-				isshow: false
+				isshow: false,
+				min: 1,
+				max: 30,
+				nums: 100,
+				mark: ['÷', '-', '+', '×'],
+				fontSize: 16,
+				width: 10,
+				list: []
 			}
 		},
+		created() {
+
+		},
 		mounted() {
-			$('ul li').each(function(value,index,arr) {
-			// console.log($(this).click())
-				  $(this).click()
-			})
-			console.log($("ul li:first").click())
-			$('ul li').bind("click",function(){
-				$(this).addClass('aa')
-			}) 
+
+			 console.log(this)
+
 		},
 		methods: {
-			onSwiper(swiper) {
-				//console.log(swiper);
+			random(min, max) {
+				return Math.floor(Math.random() * (max - min)) + min
 			},
-			onSlideChange(swiper) {
-				var cruu = swiper.activeIndex
-				var title = $(document).find('.slide-title')[cruu]
-				$(document).find('.slide-title').removeClass('active')
-				$(title).addClass('active')
+			twonumbers() {
+				this.list = [];
+				var min = this.min
+				var max = this.max
+				var nums = this.nums
+				for (let i = 0; i < nums; i++) {
+					var num1 = this.random(min, max)
+					var num2 = this.random(min, max)
+					var str = [];
+					if (num1 < num2) {
+						let num = num2;
+						num2 = num1
+						num1 = num
+					}
+
+					if ((num1 / num2) % 1 === 0) {
+						str['q'] = num1 + ' ÷ ' + num2 + ' = '
+						str['a'] = num1 / num2
+					} else {
+						let y = this.mark[this.random(1, 4)]
+						str['q'] = num1 + " " + y + " " + num2 + ' = '
+						str['a'] = (num1 + y + num2)
+						switch (y) {
+							case '+':
+								str['a'] = (num1 + num2)
+								break;
+							case '-':
+								str['a'] = (num1 - num2)
+								break;
+							case '×':
+								str['a'] = (num1 * num2)
+								break;
+						}
+					}
+
+					this.list.push(str)
+
+				}
+			},
+			threenumbers() {
+				this.list = [];
+				var min = this.min
+				var max = this.max
+				var nums = this.nums
+				for (let i = 0; i < nums; i++) {
+					var num1 = this.random(min, max)
+					var num2 = this.random(min, max)
+					var num3 = this.random(min, max)
+					var strs = [];
+					let y1 = this.mark[this.random(1, 4)]
+					let y2 = this.mark[this.random(1, 4)]
+					var str;
+					var ask;
+					if ((num1 / num2) % 1 === 0) {
+						str = num1 + '÷' + num2
+						if (num1 / num2 > num3) {
+							str = str + y1 + num3
+						} else {
+							str = num3 + y2 + str
+						}
+					} else {
+						if (num1 < num2) {
+							str = num1 + this.mark[this.random(2, 4)] + num2
+							if ((num1 + num2) > num3 || (num1 * num2) > num3) {
+								str = str + this.mark[this.random(1, 4)] + num3
+							} else {
+								str = num3 + this.mark[this.random(1, 4)] + str
+							}
+						} else {
+							str = num1 + y1 + num2 + y2 + num3
+						}
+
+					}
+
+
+
+					strs['q'] = str + ' = '
+
+					this.list.push(strs)
+
+
+
+
+
+				}
+
+
 
 			},
+			print() {
+				 window.print()
+			},
 		},
-		components: {
-			Swiper,
-			SwiperSlide,
-		},
+
+
 	}
 </script>
-<style>
-	*,
-	*::after,
-	*::before {
-		margin: 0;
-		padding: 0;
+<style scoped="scoped">
+	.main {
+		width: var(--width);
+		margin: 0 auto;
 	}
 
-	img {
-		width: 100%;
-	}
-
-	.swiper-container {
-		width: 100%;
-		height: 100%;
-	}
-
-	.swiper-slide {
-		text-align: center;
-		font-size: 18px;
-		background: #fff;
-
-		/* Center slide text vertically */
-		display: -webkit-box;
-		display: -ms-flexbox;
-		display: -webkit-flex;
+	ul {
 		display: flex;
-		-webkit-box-pack: center;
-		-ms-flex-pack: center;
-		-webkit-justify-content: center;
-		justify-content: center;
-		-webkit-box-align: center;
-		-ms-flex-align: center;
-		-webkit-align-items: center;
-		align-items: center;
+		flex-wrap: wrap;
+		padding: 2%;
+		flex-direction: row;
 	}
 
-	.swiper-slide img {
-		width: 100%;
+	ul li {
+		display: inline-block;
+		width: 20%;
+		font-size: 16px;
 	}
 
-	.slide-title {
-		position: absolute;
-		top: 10%;
-		left: 20%;
+	.from {
+		display: block;
+		padding: 2%;
 	}
 
-	.active {
-		animation-name: dis;
-		animation-duration: 0.5s;
+	.from>div {
+		display: flex;
 	}
 
-	.count {
-		font-size: 40px;
-		margin: 20px auto;
-		text-align: center;
-	}
-
-	.footer {
-		height: 80px;
-		background-color: #2C3E50;
-	}
-
-	@keyframes dis {
-		from {
-			top: 50%;
-			opacity: 0;
-		}
-
-		to {
-			top: 10%;
-			opacity: 1;
-		}
+	.col-sm-8 {
+		padding-left: 0;
 	}
 </style>

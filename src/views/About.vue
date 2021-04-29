@@ -1,16 +1,15 @@
 <template>
-	<div class="about">
-		<h1>This is an about page</h1>
-
-	</div>
-
+  <div class="about">
+    <h1>This is an about page</h1>
+    <swipers :per-view="2" />
+  </div>
 </template>
 <script>
-
+import Swipers from '../components/swiper/Swipers.vue'
 	export default {
 		name: 'About',
 		components: {
-
+      Swipers
 		}
 	}
 </script>

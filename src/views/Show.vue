@@ -1,8 +1,7 @@
 <template>
-	<h2>我是展示页面</h2>
+  <h2>我是展示页面</h2>
 
-	<p>{{id}}</p>
-
+  <p>{{ id }}</p>
 </template>
 
 <script>

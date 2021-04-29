@@ -1,15 +1,27 @@
 <template>
-	<div class="tabbar-item" @click="itemClick()">
-		<div class="tabbar-item-icon-active" v-if="isActive">
-			<slot name="itemiconactive"></slot>
-		</div>
-		<div class="tabbar-item-icon" v-else>
-			<slot name="itemicon"></slot>
-		</div>
-		<div class="tabbar-item-text" :style="acTiveClass">
-			<slot name="itemtext"></slot>
-		</div>
-	</div>
+  <div
+    class="tabbar-item"
+    @click="itemClick()"
+  >
+    <div
+      class="tabbar-item-icon-active"
+      v-if="isActive"
+    >
+      <slot name="itemiconactive" />
+    </div>
+    <div
+      class="tabbar-item-icon"
+      v-else
+    >
+      <slot name="itemicon" />
+    </div>
+    <div
+      class="tabbar-item-text"
+      :style="acTiveClass"
+    >
+      <slot name="itemtext" />
+    </div>
+  </div>
 </template>
 
 <script>

@@ -5,9 +5,11 @@ import {
 const Home = () => import('../views/Home.vue')
 const Show = () => import('../views/Show.vue')
 const About = () => import('../views/About.vue')
+const BookList = () => import('views/BookList')
+const Book = () => import('views/Book')
 const routes = [{
 		path: '/',
-		component: Home
+		redirect: '/home'
 	},
 	{
 		path: '/home',
@@ -18,11 +20,16 @@ const routes = [{
 		component: Home
 	},
 	{
-		path: '/caty',
+		path: '/BookList/:fid',
 		meta: {
-			title: '分类'
+			title: '分类目录'
 		},
-		component: Show
+		component: BookList
+	}, 
+	{
+		path: '/book/:id',
+
+		component: Book
 	},
 	{
 		path: '/about',
