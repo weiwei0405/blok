@@ -67,7 +67,7 @@
 		},
 		mounted() {
 
-			 console.log(this)
+			 console.log(Print)
 
 		},
 		methods: {
@@ -163,9 +163,7 @@
 
 
 			},
-			print() {
-				 window.print()
-			},
+		 
 		},
 
 

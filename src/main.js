@@ -8,9 +8,9 @@ import 'font-awesome/css/font-awesome.min.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.min.js'
 import Print from 'vue-print-nb'
-console.log(Print)
+
 const app = createApp(App).use(store).use(router).use(store).use(Print)
- 
+
  // const requireComponent = require.context(
  //   'components',false,/Base[A-Z]\w+\.(vue|js)$/
  // )
